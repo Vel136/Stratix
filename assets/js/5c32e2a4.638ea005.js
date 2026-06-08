@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[562],{4410:s=>{s.exports=JSON.parse('{"sourceUrl":"https://github.com/Vel136/Stratix/blob/master","baseUrl":"/Stratix/","classOrder":[{"section":"API","classes":["Stratix"]}],"apiCategories":[]}')}}]);

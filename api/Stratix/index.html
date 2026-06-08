@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="plugin-moonwave plugin-id-moonwave" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.7.0">
+<title data-rh="true">Stratix | Stratix</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://vel136.github.io/Stratix/api/Stratix"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docusaurus_tag" content="default"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docsearch:docusaurus_tag" content="default"><meta data-rh="true" property="og:title" content="Stratix | Stratix"><meta data-rh="true" name="description" content="Hierarchical state machine for Roblox Luau.
+
+Stratix models behavior as a tree of named states connected by guarded
+transitions. Dispatching an event walks the active state&#x27;s ancestor chain
+and fires the first transition whose guard passes. It supports nested
+states, parallel regions, shallow/deep history, internal transitions,
+entry/exit callbacks, guards, actions, and an event queue.
+
+Requires a Signal implementation at
+`ReplicatedStorage.Shared.Modules.Utilities.Signal`.
+
+```lua
+local Stratix = require(ReplicatedStorage.Stratix)
+
+local hsm = Stratix.new()
+
+hsm:AddState(&quot;Idle&quot;, nil, {
+    OnEntry = function(self) print(&quot;Idle&quot;) end,
+    OnExit  = function(self) print(&quot;Leaving Idle&quot;) end,
+})
+hsm:AddState(&quot;Running&quot;)
+
+hsm:AddTransition(&quot;Idle&quot;,    &quot;RUN&quot;,  &quot;Running&quot;)
+hsm:AddTransition(&quot;Running&quot;, &quot;STOP&quot;, &quot;Idle&quot;)
+
+hsm:Start(&quot;Idle&quot;)
+hsm:Dispatch(&quot;RUN&quot;)
+```"><meta data-rh="true" property="og:description" content="Hierarchical state machine for Roblox Luau.
+
+Stratix models behavior as a tree of named states connected by guarded
+transitions. Dispatching an event walks the active state&#x27;s ancestor chain
+and fires the first transition whose guard passes. It supports nested
+states, parallel regions, shallow/deep history, internal transitions,
+entry/exit callbacks, guards, actions, and an event queue.
+
+Requires a Signal implementation at
+`ReplicatedStorage.Shared.Modules.Utilities.Signal`.
+
+```lua
+local Stratix = require(ReplicatedStorage.Stratix)
+
+local hsm = Stratix.new()
+
+hsm:AddState(&quot;Idle&quot;, nil, {
+    OnEntry = function(self) print(&quot;Idle&quot;) end,
+    OnExit  = function(self) print(&quot;Leaving Idle&quot;) end,
+})
+hsm:AddState(&quot;Running&quot;)
+
+hsm:AddTransition(&quot;Idle&quot;,    &quot;RUN&quot;,  &quot;Running&quot;)
+hsm:AddTransition(&quot;Running&quot;, &quot;STOP&quot;, &quot;Idle&quot;)
+
+hsm:Start(&quot;Idle&quot;)
+hsm:Dispatch(&quot;RUN&quot;)
+```"><link data-rh="true" rel="canonical" href="https://vel136.github.io/Stratix/api/Stratix"><link data-rh="true" rel="alternate" href="https://vel136.github.io/Stratix/api/Stratix" hreflang="en"><link data-rh="true" rel="alternate" href="https://vel136.github.io/Stratix/api/Stratix" hreflang="x-default"><link rel="stylesheet" href="/Stratix/assets/css/styles.5cbed574.css">
+<script src="/Stratix/assets/js/runtime~main.60e2a6d7.js" defer="defer"></script>
+<script src="/Stratix/assets/js/main.6aaadbc2.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,t("light"))}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/Stratix/"><b class="navbar__title text--truncate">Stratix</b></a><a class="navbar__item navbar__link" href="/Stratix/docs/intro">Docs</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/Stratix/api/">API</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/Vel136/Stratix" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite" aria-pressed="false"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input id="search_input_react" type="search" placeholder="Loading..." aria-label="Search" class="navbar__search-input search-bar" disabled=""></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0 docPageContainer_wNNk"><div class="docPage_Dpn1"><div class="docSidebarContainer_o_re"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/Stratix/api/Stratix">API</a></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/Stratix/api/Stratix">​Stratix</a></li></ul></li></ul></nav></div></div><main class="docMainContainer_HJE1"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_MU3C"><div class="docItemContainer_Wv98"><article><div class="member_J0w1 markdown"><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_oUs_"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><header><h1 class="docTitle_mZRt" style="text-decoration:none"><span style="display:inline-block">Stratix</span></h1><div class="luaClassTags_EipM"></div><div>
+<p>Hierarchical state machine for Roblox Luau.</p>
+<p>
+  Stratix models behavior as a tree of named states connected by guarded
+  transitions. Dispatching an event walks the active state's ancestor chain
+  and fires the first transition whose guard passes. It supports nested
+  states, parallel regions, shallow/deep history, internal transitions,
+  entry/exit callbacks, guards, actions, and an event queue.
+</p>
+<p>
+  Requires a Signal implementation at
+  <code>ReplicatedStorage.Shared.Modules.Utilities.Signal</code>.
+</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> Stratix <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span>ReplicatedStorage<span class="token punctuation">.</span>Stratix<span class="token punctuation">)</span>
+
+<span class="token keyword">local</span> hsm <span class="token operator">=</span> Stratix<span class="token punctuation">.</span><span class="token function">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+hsm<span class="token punctuation">:</span><span class="token function">AddState</span><span class="token punctuation">(</span><span class="token string">"Idle"</span><span class="token punctuation">,</span> <span class="token keyword">nil</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    OnEntry <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Idle"</span><span class="token punctuation">)</span> <span class="token keyword">end</span><span class="token punctuation">,</span>
+    OnExit  <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Leaving Idle"</span><span class="token punctuation">)</span> <span class="token keyword">end</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+hsm<span class="token punctuation">:</span><span class="token function">AddState</span><span class="token punctuation">(</span><span class="token string">"Running"</span><span class="token punctuation">)</span>
+
+hsm<span class="token punctuation">:</span><span class="token function">AddTransition</span><span class="token punctuation">(</span><span class="token string">"Idle"</span><span class="token punctuation">,</span>    <span class="token string">"RUN"</span><span class="token punctuation">,</span>  <span class="token string">"Running"</span><span class="token punctuation">)</span>
+hsm<span class="token punctuation">:</span><span class="token function">AddTransition</span><span class="token punctuation">(</span><span class="token string">"Running"</span><span class="token punctuation">,</span> <span class="token string">"STOP"</span><span class="token punctuation">,</span> <span class="token string">"Idle"</span><span class="token punctuation">)</span>
+
+hsm<span class="token punctuation">:</span><span class="token function">Start</span><span class="token punctuation">(</span><span class="token string">"Idle"</span><span class="token punctuation">)</span>
+hsm<span class="token punctuation">:</span><span class="token function">Dispatch</span><span class="token punctuation">(</span><span class="token string">"RUN"</span><span class="token punctuation">)</span>
+</code></pre>
+</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="properties">Properties<a href="#properties" class="hash-link" aria-label="Direct link to Properties" title="Direct link to Properties">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Signals"><code style="text-decoration:none">Signals</code><a href="#Signals" class="hash-link" aria-label="Direct link to Signals" title="Direct link to Signals">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Stratix/blob/master/docs/Ryxen.lua#L74"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Stratix<!-- -->.<!-- -->Signals<!-- -->:<!-- --> </code> <code class="blue_P4bS">StoreSignals</code></div><div>
+<p>Top-level Signal connections for the HSM.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Signal</th>
+      <th>Parameters</th>
+      <th>Fires when</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>OnStateChanged</code></td>
+      <td><code>prev: string?, next: string, region: string</code></td>
+      <td>A state becomes active</td>
+    </tr>
+    <tr>
+      <td><code>OnTransition</code></td>
+      <td><code>from: string, event: string, to: string, region: string</code></td>
+      <td>A transition completes (including internal)</td>
+    </tr>
+  </tbody>
+</table>
+<pre class="language-lua"><code class="language-lua">hsm<span class="token punctuation">.</span>Signals<span class="token punctuation">.</span>OnStateChanged<span class="token punctuation">:</span><span class="token function">Connect</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>prev<span class="token punctuation">,</span> next<span class="token punctuation">,</span> region<span class="token punctuation">)</span>
+    <span class="token function">print</span><span class="token punctuation">(</span>region<span class="token punctuation">,</span> prev<span class="token punctuation">,</span> <span class="token string">"->"</span><span class="token punctuation">,</span> next<span class="token punctuation">)</span>
+<span class="token keyword">end</span><span class="token punctuation">)</span>
+
+hsm<span class="token punctuation">.</span>Signals<span class="token punctuation">.</span>OnTransition<span class="token punctuation">:</span><span class="token function">Connect</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>from<span class="token punctuation">,</span> event<span class="token punctuation">,</span> to<span class="token punctuation">,</span> region<span class="token punctuation">)</span>
+    <span class="token function">print</span><span class="token punctuation">(</span>event<span class="token punctuation">,</span> from<span class="token punctuation">,</span> <span class="token string">"->"</span><span class="token punctuation">,</span> to<span class="token punctuation">)</span>
+<span class="token keyword">end</span><span class="token punctuation">)</span>
+</code></pre>
+</div><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="new"><code style="text-decoration:none">new</code><a href="#new" class="hash-link" aria-label="Direct link to new" title="Direct link to new">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Stratix/blob/master/docs/Ryxen.lua#L51"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Stratix<!-- -->.</code><code class="green_DgR4">new</code><code>(</code><code>) → </code><code class="blue_P4bS">HSM</code></div><div>
+<p>Creates a new hierarchical state machine.</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> hsm <span class="token operator">=</span> Stratix<span class="token punctuation">.</span><span class="token function">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="AddRegion"><code style="text-decoration:none">AddRegion</code><a href="#AddRegion" class="hash-link" aria-label="Direct link to AddRegion" title="Direct link to AddRegion">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Stratix/blob/master/docs/Ryxen.lua#L92"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Stratix<!-- -->:</code><code class="green_DgR4">AddRegion</code><code>(</code><div class="inset_uKQm"><div><code>name<!-- -->: </code><code class="blue_P4bS">string</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Unique region name.</p>
+</span></span></div><div><code>initialState<!-- -->: </code><code class="blue_P4bS">string?</code><span class="inlineDescription_G7Er">-- <span>
+<p>Default initial state for this region.</p>
+</span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>
+  Registers a parallel region. Each region runs its own active state
+  independently. Must be called before <code>Start</code> unless you intend to boot it
+  later with <code>StartRegion</code>.
+</p>
+<pre class="language-lua"><code class="language-lua">hsm<span class="token punctuation">:</span><span class="token function">AddRegion</span><span class="token punctuation">(</span><span class="token string">"Movement"</span><span class="token punctuation">,</span> <span class="token string">"Idle"</span><span class="token punctuation">)</span>
+hsm<span class="token punctuation">:</span><span class="token function">AddRegion</span><span class="token punctuation">(</span><span class="token string">"Weapon"</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="AddState"><code style="text-decoration:none">AddState</code><a href="#AddState" class="hash-link" aria-label="Direct link to AddState" title="Direct link to AddState">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Stratix/blob/master/docs/Ryxen.lua#L119"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Stratix<!-- -->:</code><code class="green_DgR4">AddState</code><code>(</code><div class="inset_uKQm"><div><code>name<!-- -->: </code><code class="blue_P4bS">string</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Unique state name.</p>
+</span></span></div><div><code>parentName<!-- -->: </code><code class="blue_P4bS">string?</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Parent state name, if nested.</p>
+</span></span></div><div><code>config<!-- -->: </code><code class="blue_P4bS">StateConfig?</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Entry/exit callbacks and history settings.</p>
+</span></span></div><div><code>regionName<!-- -->: </code><code class="blue_P4bS">string?</code><span class="inlineDescription_G7Er">-- <span>
+<p>Region to place the state in (top-level states only).</p>
+</span></span></div></div><code>) → </code><code class="blue_P4bS">string</code><span class="inlineDescription_G7Er">-- <span>
+<p>The state name, for convenience.</p>
+</span></span></div><div>
+<p>
+  Registers a state. If <code>parentName</code> is provided the state is nested under
+  that parent and inherits its region. If <code>regionName</code> is provided the state
+  is placed in that region as a top-level state. If neither is given, Stratix
+  creates and uses the implicit <code>"Default"</code> region.
+</p>
+<pre class="language-lua"><code class="language-lua">hsm<span class="token punctuation">:</span><span class="token function">AddState</span><span class="token punctuation">(</span><span class="token string">"Idle"</span><span class="token punctuation">)</span>
+
+hsm<span class="token punctuation">:</span><span class="token function">AddState</span><span class="token punctuation">(</span><span class="token string">"Moving"</span><span class="token punctuation">,</span> <span class="token keyword">nil</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> Initial <span class="token operator">=</span> <span class="token string">"Walking"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+hsm<span class="token punctuation">:</span><span class="token function">AddState</span><span class="token punctuation">(</span><span class="token string">"Walking"</span><span class="token punctuation">,</span>  <span class="token string">"Moving"</span><span class="token punctuation">)</span>
+hsm<span class="token punctuation">:</span><span class="token function">AddState</span><span class="token punctuation">(</span><span class="token string">"Sprinting"</span><span class="token punctuation">,</span> <span class="token string">"Moving"</span><span class="token punctuation">)</span>
+
+hsm<span class="token punctuation">:</span><span class="token function">AddState</span><span class="token punctuation">(</span><span class="token string">"Unarmed"</span><span class="token punctuation">,</span> <span class="token keyword">nil</span><span class="token punctuation">,</span> <span class="token keyword">nil</span><span class="token punctuation">,</span> <span class="token string">"Weapon"</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="AddTransition"><code style="text-decoration:none">AddTransition</code><a href="#AddTransition" class="hash-link" aria-label="Direct link to AddTransition" title="Direct link to AddTransition">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Stratix/blob/master/docs/Ryxen.lua#L155"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Stratix<!-- -->:</code><code class="green_DgR4">AddTransition</code><code>(</code><div class="inset_uKQm"><div><code>fromName<!-- -->: </code><code class="blue_P4bS">string</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Source state.</p>
+</span></span></div><div><code>event<!-- -->: </code><code class="blue_P4bS">string</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Event string that triggers this transition.</p>
+</span></span></div><div><code>toName<!-- -->: </code><code class="blue_P4bS">string</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>Target state.</p>
+</span></span></div><div><code>config<!-- -->: </code><code class="blue_P4bS">TransitionConfig?</code><span class="inlineDescription_G7Er">-- <span>
+<p>Optional guard, action, and internal flag.</p>
+</span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>
+  Registers a transition from <code>fromName</code> to <code>toName</code> triggered by <code>event</code>.
+  Both states must be in the same region. Multiple transitions can share the
+  same event; guards are tested in registration order.
+</p>
+<pre class="language-lua"><code class="language-lua"><span class="token comment">-- Basic</span>
+hsm<span class="token punctuation">:</span><span class="token function">AddTransition</span><span class="token punctuation">(</span><span class="token string">"Idle"</span><span class="token punctuation">,</span> <span class="token string">"RUN"</span><span class="token punctuation">,</span> <span class="token string">"Running"</span><span class="token punctuation">)</span>
+
+<span class="token comment">-- With guard</span>
+hsm<span class="token punctuation">:</span><span class="token function">AddTransition</span><span class="token punctuation">(</span><span class="token string">"Running"</span><span class="token punctuation">,</span> <span class="token string">"JUMP"</span><span class="token punctuation">,</span> <span class="token string">"Airborne"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    Guard <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span> <span class="token keyword">return</span> self<span class="token punctuation">.</span>Stamina <span class="token operator">></span> <span class="token number">0</span> <span class="token keyword">end</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment">-- With action (runs between OnExit and OnEntry)</span>
+hsm<span class="token punctuation">:</span><span class="token function">AddTransition</span><span class="token punctuation">(</span><span class="token string">"Idle"</span><span class="token punctuation">,</span> <span class="token string">"ATTACK"</span><span class="token punctuation">,</span> <span class="token string">"Attacking"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    Action <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span> self<span class="token punctuation">.</span>AttackCount <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span> <span class="token keyword">end</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment">-- Internal (action only, no exit/entry)</span>
+hsm<span class="token punctuation">:</span><span class="token function">AddTransition</span><span class="token punctuation">(</span><span class="token string">"Idle"</span><span class="token punctuation">,</span> <span class="token string">"PING"</span><span class="token punctuation">,</span> <span class="token string">"Idle"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    Internal <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">,</span>
+    Action   <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"ping"</span><span class="token punctuation">)</span> <span class="token keyword">end</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="ReplaceTransitionGuard"><code style="text-decoration:none">ReplaceTransitionGuard</code><a href="#ReplaceTransitionGuard" class="hash-link" aria-label="Direct link to ReplaceTransitionGuard" title="Direct link to ReplaceTransitionGuard">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Stratix/blob/master/docs/Ryxen.lua#L175"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Stratix<!-- -->:</code><code class="green_DgR4">ReplaceTransitionGuard</code><code>(</code><div class="inset_uKQm"><div><code>fromName<!-- -->: </code><code class="blue_P4bS">string</code><code>,</code></div><div><code>event<!-- -->: </code><code class="blue_P4bS">string</code><code>,</code></div><div><code>index<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+<p>1-based index in the transition list for this event.</p>
+</span></span></div><div><code>newGuard<!-- -->: </code><code class="purple_ieR2">(</code><code>hsm<!-- -->: </code><code class="blue_P4bS">HSM</code><code class="purple_ieR2">)</code><code class="purple_ieR2"> → </code><code class="blue_P4bS">boolean</code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>
+  Replaces the guard on an existing transition at runtime. <code>index</code> is
+  1-based and matches registration order for that event on that state.
+</p>
+<pre class="language-lua"><code class="language-lua">hsm<span class="token punctuation">:</span><span class="token function">ReplaceTransitionGuard</span><span class="token punctuation">(</span><span class="token string">"Running"</span><span class="token punctuation">,</span> <span class="token string">"JUMP"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> self<span class="token punctuation">.</span>Stamina <span class="token operator">></span> <span class="token number">10</span>
+<span class="token keyword">end</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Extend"><code style="text-decoration:none">Extend</code><a href="#Extend" class="hash-link" aria-label="Direct link to Extend" title="Direct link to Extend">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Stratix/blob/master/docs/Ryxen.lua#L195"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Stratix<!-- -->:</code><code class="green_DgR4">Extend</code><code>(</code><code>builderFn<!-- -->: </code><code class="purple_ieR2">(</code><code>hsm<!-- -->: </code><code class="blue_P4bS">HSM</code><code class="purple_ieR2">)</code><code class="purple_ieR2"> → </code><code class="purple_ieR2">(</code><code class="purple_ieR2">)</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Passes the HSM to <code>builderFn</code>, allowing you to modularize setup.</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> <span class="token keyword">function</span> <span class="token function">addMovement</span><span class="token punctuation">(</span>h<span class="token punctuation">)</span>
+    h<span class="token punctuation">:</span><span class="token function">AddState</span><span class="token punctuation">(</span><span class="token string">"Idle"</span><span class="token punctuation">)</span>
+    h<span class="token punctuation">:</span><span class="token function">AddState</span><span class="token punctuation">(</span><span class="token string">"Running"</span><span class="token punctuation">)</span>
+    h<span class="token punctuation">:</span><span class="token function">AddTransition</span><span class="token punctuation">(</span><span class="token string">"Idle"</span><span class="token punctuation">,</span> <span class="token string">"RUN"</span><span class="token punctuation">,</span> <span class="token string">"Running"</span><span class="token punctuation">)</span>
+<span class="token keyword">end</span>
+
+hsm<span class="token punctuation">:</span><span class="token function">Extend</span><span class="token punctuation">(</span>addMovement<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Start"><code style="text-decoration:none">Start</code><a href="#Start" class="hash-link" aria-label="Direct link to Start" title="Direct link to Start">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Stratix/blob/master/docs/Ryxen.lua#L215"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Stratix<!-- -->:</code><code class="green_DgR4">Start</code><code>(</code><div class="inset_uKQm"><div><code>initialStates<!-- -->: </code><code class="purple_ieR2">(</code><code class="green_DgR4">{</code><span><code>[</code><code class="blue_P4bS">string</code><code>]</code></span><code>: </code><code class="blue_P4bS">string</code><code class="green_DgR4">}</code><code class="op_lSLc"> | </code><code class="blue_P4bS">string</code><code class="purple_ieR2">)</code><code class="blue_P4bS">?</code><span class="inlineDescription_G7Er">-- <span>
+<p>Initial state(s).</p>
+</span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>
+  Boots all registered regions and begins processing events. Can only be
+  called once. Pass a state name for single-region machines, or a table
+  mapping region names to initial states for multi-region machines.
+</p>
+<pre class="language-lua"><code class="language-lua"><span class="token comment">-- Single region</span>
+hsm<span class="token punctuation">:</span><span class="token function">Start</span><span class="token punctuation">(</span><span class="token string">"Idle"</span><span class="token punctuation">)</span>
+
+<span class="token comment">-- Multiple regions</span>
+hsm<span class="token punctuation">:</span><span class="token function">Start</span><span class="token punctuation">(</span><span class="token punctuation">{</span> Movement <span class="token operator">=</span> <span class="token string">"Walking"</span><span class="token punctuation">,</span> Weapon <span class="token operator">=</span> <span class="token string">"Unarmed"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="StartRegion"><code style="text-decoration:none">StartRegion</code><a href="#StartRegion" class="hash-link" aria-label="Direct link to StartRegion" title="Direct link to StartRegion">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Stratix/blob/master/docs/Ryxen.lua#L233"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Stratix<!-- -->:</code><code class="green_DgR4">StartRegion</code><code>(</code><div class="inset_uKQm"><div><code>regionName<!-- -->: </code><code class="blue_P4bS">string</code><code>,</code></div><div><code>initialState<!-- -->: </code><code class="blue_P4bS">string?</code><span class="inlineDescription_G7Er">-- <span>
+<p>Overrides the region's registered initial state.</p>
+</span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>
+  Boots a region that was added after <code>Start</code>. All states and transitions for
+  the region must be registered before calling this.
+</p>
+<pre class="language-lua"><code class="language-lua">hsm<span class="token punctuation">:</span><span class="token function">AddRegion</span><span class="token punctuation">(</span><span class="token string">"Emote"</span><span class="token punctuation">)</span>
+hsm<span class="token punctuation">:</span><span class="token function">AddState</span><span class="token punctuation">(</span><span class="token string">"Idle_Emote"</span><span class="token punctuation">,</span> <span class="token keyword">nil</span><span class="token punctuation">,</span> <span class="token keyword">nil</span><span class="token punctuation">,</span> <span class="token string">"Emote"</span><span class="token punctuation">)</span>
+hsm<span class="token punctuation">:</span><span class="token function">StartRegion</span><span class="token punctuation">(</span><span class="token string">"Emote"</span><span class="token punctuation">,</span> <span class="token string">"Idle_Emote"</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Dispatch"><code style="text-decoration:none">Dispatch</code><a href="#Dispatch" class="hash-link" aria-label="Direct link to Dispatch" title="Direct link to Dispatch">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Stratix/blob/master/docs/Ryxen.lua#L252"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Stratix<!-- -->:</code><code class="green_DgR4">Dispatch</code><code>(</code><code>event<!-- -->: </code><code class="blue_P4bS">string</code><code>) → </code><code class="blue_P4bS">boolean</code><span class="inlineDescription_G7Er">-- <span>
+<p><code>true</code> if at least one region handled the event.</p>
+</span></span></div><div>
+<p>
+  Sends an event to all regions. Each region walks its active state's
+  ancestor chain and fires the first matching transition whose guard passes.
+</p>
+<p>
+  Events dispatched while a transition is in progress are queued and
+  replayed in order after the current transition completes.
+</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> handled <span class="token operator">=</span> hsm<span class="token punctuation">:</span><span class="token function">Dispatch</span><span class="token punctuation">(</span><span class="token string">"RUN"</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="GetActive"><code style="text-decoration:none">GetActive</code><a href="#GetActive" class="hash-link" aria-label="Direct link to GetActive" title="Direct link to GetActive">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Stratix/blob/master/docs/Ryxen.lua#L267"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Stratix<!-- -->:</code><code class="green_DgR4">GetActive</code><code>(</code><code>) → </code><code class="purple_ieR2">{</code><span><code>[</code><code class="blue_P4bS">string</code><code>]</code></span><code>: </code><code class="blue_P4bS">string</code><code class="purple_ieR2">}</code></div><div>
+<p>Returns the active state name for every region.</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> active <span class="token operator">=</span> hsm<span class="token punctuation">:</span><span class="token function">GetActive</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment">-- { Default = "Running", Weapon = "Armed" }</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="GetActiveIn"><code style="text-decoration:none">GetActiveIn</code><a href="#GetActiveIn" class="hash-link" aria-label="Direct link to GetActiveIn" title="Direct link to GetActiveIn">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Stratix/blob/master/docs/Ryxen.lua#L283"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Stratix<!-- -->:</code><code class="green_DgR4">GetActiveIn</code><code>(</code><code>regionName<!-- -->: </code><code class="blue_P4bS">string</code><code>) → </code><code class="blue_P4bS">string?</code></div><div>
+<p>
+  Returns the active state name in the given region, or <code>nil</code> if the region
+  has not been started.
+</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> state <span class="token operator">=</span> hsm<span class="token punctuation">:</span><span class="token function">GetActiveIn</span><span class="token punctuation">(</span><span class="token string">"Weapon"</span><span class="token punctuation">)</span>   <span class="token comment">--> "Armed"</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="IsActive"><code style="text-decoration:none">IsActive</code><a href="#IsActive" class="hash-link" aria-label="Direct link to IsActive" title="Direct link to IsActive">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Stratix/blob/master/docs/Ryxen.lua#L299"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Stratix<!-- -->:</code><code class="green_DgR4">IsActive</code><code>(</code><code>name<!-- -->: </code><code class="blue_P4bS">string</code><code>) → </code><code class="blue_P4bS">boolean</code></div><div>
+<p>
+  Returns <code>true</code> if <code>name</code> is the active state or an active ancestor state
+  in any region.
+</p>
+<pre class="language-lua"><code class="language-lua">hsm<span class="token punctuation">:</span><span class="token function">IsActive</span><span class="token punctuation">(</span><span class="token string">"Moving"</span><span class="token punctuation">)</span>   <span class="token comment">--> true when Walking or Sprinting is active</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="IsActiveIn"><code style="text-decoration:none">IsActiveIn</code><a href="#IsActiveIn" class="hash-link" aria-label="Direct link to IsActiveIn" title="Direct link to IsActiveIn">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Stratix/blob/master/docs/Ryxen.lua#L316"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Stratix<!-- -->:</code><code class="green_DgR4">IsActiveIn</code><code>(</code><div class="inset_uKQm"><div><code>name<!-- -->: </code><code class="blue_P4bS">string</code><code>,</code></div><div><code>regionName<!-- -->: </code><code class="blue_P4bS">string</code></div></div><code>) → </code><code class="blue_P4bS">boolean</code></div><div>
+<p>
+  Returns <code>true</code> if <code>name</code> is the active state or an active ancestor state
+  in the specified region.
+</p>
+<pre class="language-lua"><code class="language-lua">hsm<span class="token punctuation">:</span><span class="token function">IsActiveIn</span><span class="token punctuation">(</span><span class="token string">"Moving"</span><span class="token punctuation">,</span> <span class="token string">"Default"</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="GetStateNames"><code style="text-decoration:none">GetStateNames</code><a href="#GetStateNames" class="hash-link" aria-label="Direct link to GetStateNames" title="Direct link to GetStateNames">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Stratix/blob/master/docs/Ryxen.lua#L333"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Stratix<!-- -->:</code><code class="green_DgR4">GetStateNames</code><code>(</code><div class="inset_uKQm"><div><code>regionName<!-- -->: </code><code class="blue_P4bS">string?</code><span class="inlineDescription_G7Er">-- <span>
+<p>Filter to this region.</p>
+</span></span></div></div><code>) → </code><code class="purple_ieR2">{</code><code class="blue_P4bS">string</code><code class="purple_ieR2">}</code></div><div>
+<p>
+  Returns a sorted list of all registered state names, optionally filtered
+  to one region. Root sentinel states are excluded.
+</p>
+<pre class="language-lua"><code class="language-lua">hsm<span class="token punctuation">:</span><span class="token function">GetStateNames</span><span class="token punctuation">(</span><span class="token punctuation">)</span>            <span class="token comment">-- all regions</span>
+hsm<span class="token punctuation">:</span><span class="token function">GetStateNames</span><span class="token punctuation">(</span><span class="token string">"Movement"</span><span class="token punctuation">)</span>  <span class="token comment">-- one region</span>
+</code></pre>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="Destroy"><code style="text-decoration:none">Destroy</code><a href="#Destroy" class="hash-link" aria-label="Direct link to Destroy" title="Direct link to Destroy">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/Vel136/Stratix/blob/master/docs/Ryxen.lua#L347"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Stratix<!-- -->:</code><code class="green_DgR4">Destroy</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+<p>
+  Destroys the HSM. Runs <code>OnExit</code> on all currently active states, then
+  disconnects all signals and clears internal state. The HSM cannot be used
+  after this call.
+</p>
+<pre class="language-lua"><code class="language-lua">hsm<span class="token punctuation">:</span><span class="token function">Destroy</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
+    &quot;functions&quot;: [
+        {
+            &quot;name&quot;: &quot;new&quot;,
+            &quot;desc&quot;: &quot;Creates a new hierarchical state machine.\n\n```lua\nlocal hsm = Stratix.new()\n```&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;HSM&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 51,
+                &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;AddRegion&quot;,
+            &quot;desc&quot;: &quot;Registers a parallel region. Each region runs its own active state\nindependently. Must be called before `Start` unless you intend to boot it\nlater with `StartRegion`.\n\n```lua\nhsm:AddRegion(\&quot;Movement\&quot;, \&quot;Idle\&quot;)\nhsm:AddRegion(\&quot;Weapon\&quot;)\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;name&quot;,
+                    &quot;desc&quot;: &quot;Unique region name.&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;initialState&quot;,
+                    &quot;desc&quot;: &quot;Default initial state for this region.&quot;,
+                    &quot;lua_type&quot;: &quot;string?&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 92,
+                &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;AddState&quot;,
+            &quot;desc&quot;: &quot;Registers a state. If `parentName` is provided the state is nested under\nthat parent and inherits its region. If `regionName` is provided the state\nis placed in that region as a top-level state. If neither is given, Stratix\ncreates and uses the implicit `\&quot;Default\&quot;` region.\n\n```lua\nhsm:AddState(\&quot;Idle\&quot;)\n\nhsm:AddState(\&quot;Moving\&quot;, nil, { Initial = \&quot;Walking\&quot; })\nhsm:AddState(\&quot;Walking\&quot;,  \&quot;Moving\&quot;)\nhsm:AddState(\&quot;Sprinting\&quot;, \&quot;Moving\&quot;)\n\nhsm:AddState(\&quot;Unarmed\&quot;, nil, nil, \&quot;Weapon\&quot;)\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;name&quot;,
+                    &quot;desc&quot;: &quot;Unique state name.&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;parentName&quot;,
+                    &quot;desc&quot;: &quot;Parent state name, if nested.&quot;,
+                    &quot;lua_type&quot;: &quot;string?&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;config&quot;,
+                    &quot;desc&quot;: &quot;Entry/exit callbacks and history settings.&quot;,
+                    &quot;lua_type&quot;: &quot;StateConfig?&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;regionName&quot;,
+                    &quot;desc&quot;: &quot;Region to place the state in (top-level states only).&quot;,
+                    &quot;lua_type&quot;: &quot;string?&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;The state name, for convenience.&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 119,
+                &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;AddTransition&quot;,
+            &quot;desc&quot;: &quot;Registers a transition from `fromName` to `toName` triggered by `event`.\nBoth states must be in the same region. Multiple transitions can share the\nsame event; guards are tested in registration order.\n\n```lua\n-- Basic\nhsm:AddTransition(\&quot;Idle\&quot;, \&quot;RUN\&quot;, \&quot;Running\&quot;)\n\n-- With guard\nhsm:AddTransition(\&quot;Running\&quot;, \&quot;JUMP\&quot;, \&quot;Airborne\&quot;, {\n    Guard = function(self) return self.Stamina &gt; 0 end,\n})\n\n-- With action (runs between OnExit and OnEntry)\nhsm:AddTransition(\&quot;Idle\&quot;, \&quot;ATTACK\&quot;, \&quot;Attacking\&quot;, {\n    Action = function(self) self.AttackCount += 1 end,\n})\n\n-- Internal (action only, no exit/entry)\nhsm:AddTransition(\&quot;Idle\&quot;, \&quot;PING\&quot;, \&quot;Idle\&quot;, {\n    Internal = true,\n    Action   = function(self) print(\&quot;ping\&quot;) end,\n})\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;fromName&quot;,
+                    &quot;desc&quot;: &quot;Source state.&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;event&quot;,
+                    &quot;desc&quot;: &quot;Event string that triggers this transition.&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;toName&quot;,
+                    &quot;desc&quot;: &quot;Target state.&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;config&quot;,
+                    &quot;desc&quot;: &quot;Optional guard, action, and internal flag.&quot;,
+                    &quot;lua_type&quot;: &quot;TransitionConfig?&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 155,
+                &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;ReplaceTransitionGuard&quot;,
+            &quot;desc&quot;: &quot;Replaces the guard on an existing transition at runtime. `index` is\n1-based and matches registration order for that event on that state.\n\n```lua\nhsm:ReplaceTransitionGuard(\&quot;Running\&quot;, \&quot;JUMP\&quot;, 1, function(self)\n    return self.Stamina &gt; 10\nend)\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;fromName&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;event&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;index&quot;,
+                    &quot;desc&quot;: &quot;1-based index in the transition list for this event.&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;newGuard&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;(hsm: HSM) -&gt; boolean&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 175,
+                &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Extend&quot;,
+            &quot;desc&quot;: &quot;Passes the HSM to `builderFn`, allowing you to modularize setup.\n\n```lua\nlocal function addMovement(h)\n    h:AddState(\&quot;Idle\&quot;)\n    h:AddState(\&quot;Running\&quot;)\n    h:AddTransition(\&quot;Idle\&quot;, \&quot;RUN\&quot;, \&quot;Running\&quot;)\nend\n\nhsm:Extend(addMovement)\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;builderFn&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;(hsm: HSM) -&gt; ()&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 195,
+                &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Start&quot;,
+            &quot;desc&quot;: &quot;Boots all registered regions and begins processing events. Can only be\ncalled once. Pass a state name for single-region machines, or a table\nmapping region names to initial states for multi-region machines.\n\n```lua\n-- Single region\nhsm:Start(\&quot;Idle\&quot;)\n\n-- Multiple regions\nhsm:Start({ Movement = \&quot;Walking\&quot;, Weapon = \&quot;Unarmed\&quot; })\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;initialStates&quot;,
+                    &quot;desc&quot;: &quot;Initial state(s).&quot;,
+                    &quot;lua_type&quot;: &quot;({ [string]: string } | string)?&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 215,
+                &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;StartRegion&quot;,
+            &quot;desc&quot;: &quot;Boots a region that was added after `Start`. All states and transitions for\nthe region must be registered before calling this.\n\n```lua\nhsm:AddRegion(\&quot;Emote\&quot;)\nhsm:AddState(\&quot;Idle_Emote\&quot;, nil, nil, \&quot;Emote\&quot;)\nhsm:StartRegion(\&quot;Emote\&quot;, \&quot;Idle_Emote\&quot;)\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;regionName&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;initialState&quot;,
+                    &quot;desc&quot;: &quot;Overrides the region&#x27;s registered initial state.&quot;,
+                    &quot;lua_type&quot;: &quot;string?&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 233,
+                &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Dispatch&quot;,
+            &quot;desc&quot;: &quot;Sends an event to all regions. Each region walks its active state&#x27;s\nancestor chain and fires the first matching transition whose guard passes.\n\nEvents dispatched while a transition is in progress are queued and\nreplayed in order after the current transition completes.\n\n```lua\nlocal handled = hsm:Dispatch(\&quot;RUN\&quot;)\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;event&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;`true` if at least one region handled the event.&quot;,
+                    &quot;lua_type&quot;: &quot;boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 252,
+                &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;GetActive&quot;,
+            &quot;desc&quot;: &quot;Returns the active state name for every region.\n\n```lua\nlocal active = hsm:GetActive()\n-- { Default = \&quot;Running\&quot;, Weapon = \&quot;Armed\&quot; }\n```&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;{ [string]: string }&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 267,
+                &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;GetActiveIn&quot;,
+            &quot;desc&quot;: &quot;Returns the active state name in the given region, or `nil` if the region\nhas not been started.\n\n```lua\nlocal state = hsm:GetActiveIn(\&quot;Weapon\&quot;)   --&gt; \&quot;Armed\&quot;\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;regionName&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string?&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 283,
+                &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;IsActive&quot;,
+            &quot;desc&quot;: &quot;Returns `true` if `name` is the active state or an active ancestor state\nin any region.\n\n```lua\nhsm:IsActive(\&quot;Moving\&quot;)   --&gt; true when Walking or Sprinting is active\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;name&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 299,
+                &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;IsActiveIn&quot;,
+            &quot;desc&quot;: &quot;Returns `true` if `name` is the active state or an active ancestor state\nin the specified region.\n\n```lua\nhsm:IsActiveIn(\&quot;Moving\&quot;, \&quot;Default\&quot;)\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;name&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;regionName&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;boolean&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 316,
+                &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;GetStateNames&quot;,
+            &quot;desc&quot;: &quot;Returns a sorted list of all registered state names, optionally filtered\nto one region. Root sentinel states are excluded.\n\n```lua\nhsm:GetStateNames()            -- all regions\nhsm:GetStateNames(\&quot;Movement\&quot;)  -- one region\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;regionName&quot;,
+                    &quot;desc&quot;: &quot;Filter to this region.&quot;,
+                    &quot;lua_type&quot;: &quot;string?&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;{ string }&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 333,
+                &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Destroy&quot;,
+            &quot;desc&quot;: &quot;Destroys the HSM. Runs `OnExit` on all currently active states, then\ndisconnects all signals and clears internal state. The HSM cannot be used\nafter this call.\n\n```lua\nhsm:Destroy()\n```&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 347,
+                &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+            }
+        }
+    ],
+    &quot;properties&quot;: [
+        {
+            &quot;name&quot;: &quot;Signals&quot;,
+            &quot;desc&quot;: &quot;Top-level Signal connections for the HSM.\n\n| Signal | Parameters | Fires when |\n|--------|-----------|------------|\n| `OnStateChanged` | `prev: string?, next: string, region: string` | A state becomes active |\n| `OnTransition` | `from: string, event: string, to: string, region: string` | A transition completes (including internal) |\n\n```lua\nhsm.Signals.OnStateChanged:Connect(function(prev, next, region)\n    print(region, prev, \&quot;-&gt;\&quot;, next)\nend)\n\nhsm.Signals.OnTransition:Connect(function(from, event, to, region)\n    print(event, from, \&quot;-&gt;\&quot;, to)\nend)\n```&quot;,
+            &quot;lua_type&quot;: &quot;StoreSignals&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 74,
+                &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+            }
+        }
+    ],
+    &quot;types&quot;: [],
+    &quot;name&quot;: &quot;Stratix&quot;,
+    &quot;desc&quot;: &quot;Hierarchical state machine for Roblox Luau.\n\nStratix models behavior as a tree of named states connected by guarded\ntransitions. Dispatching an event walks the active state&#x27;s ancestor chain\nand fires the first transition whose guard passes. It supports nested\nstates, parallel regions, shallow/deep history, internal transitions,\nentry/exit callbacks, guards, actions, and an event queue.\n\nRequires a Signal implementation at\n`ReplicatedStorage.Shared.Modules.Utilities.Signal`.\n\n```lua\nlocal Stratix = require(ReplicatedStorage.Stratix)\n\nlocal hsm = Stratix.new()\n\nhsm:AddState(\&quot;Idle\&quot;, nil, {\n    OnEntry = function(self) print(\&quot;Idle\&quot;) end,\n    OnExit  = function(self) print(\&quot;Leaving Idle\&quot;) end,\n})\nhsm:AddState(\&quot;Running\&quot;)\n\nhsm:AddTransition(\&quot;Idle\&quot;,    \&quot;RUN\&quot;,  \&quot;Running\&quot;)\nhsm:AddTransition(\&quot;Running\&quot;, \&quot;STOP\&quot;, \&quot;Idle\&quot;)\n\nhsm:Start(\&quot;Idle\&quot;)\nhsm:Dispatch(\&quot;RUN\&quot;)\n```&quot;,
+    &quot;source&quot;: {
+        &quot;line&quot;: 37,
+        &quot;path&quot;: &quot;docs/Ryxen.lua&quot;
+    }
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#Signals" class="table-of-contents__link toc-highlight">Signals</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#AddRegion" class="table-of-contents__link toc-highlight">:AddRegion</a></li><li><a href="#AddState" class="table-of-contents__link toc-highlight">:AddState</a></li><li><a href="#AddTransition" class="table-of-contents__link toc-highlight">:AddTransition</a></li><li><a href="#Destroy" class="table-of-contents__link toc-highlight">:Destroy</a></li><li><a href="#Dispatch" class="table-of-contents__link toc-highlight">:Dispatch</a></li><li><a href="#Extend" class="table-of-contents__link toc-highlight">:Extend</a></li><li><a href="#GetActive" class="table-of-contents__link toc-highlight">:GetActive</a></li><li><a href="#GetActiveIn" class="table-of-contents__link toc-highlight">:GetActiveIn</a></li><li><a href="#GetStateNames" class="table-of-contents__link toc-highlight">:GetStateNames</a></li><li><a href="#IsActive" class="table-of-contents__link toc-highlight">:IsActive</a></li><li><a href="#IsActiveIn" class="table-of-contents__link toc-highlight">:IsActiveIn</a></li><li><a href="#ReplaceTransitionGuard" class="table-of-contents__link toc-highlight">:ReplaceTransitionGuard</a></li><li><a href="#Start" class="table-of-contents__link toc-highlight">:Start</a></li><li><a href="#StartRegion" class="table-of-contents__link toc-highlight">:StartRegion</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">.new</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://discord.gg/XMYMRKcd3g" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord Server<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://discord.com/users/897026279243669504" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord (Direct)<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">Social</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://www.instagram.com/vedevelopment/" target="_blank" rel="noopener noreferrer" class="footer__link-item">Instagram<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://x.com/vedevelopment_" target="_blank" rel="noopener noreferrer" class="footer__link-item">X (Twitter)<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://www.tiktok.com/@vedevelopment" target="_blank" rel="noopener noreferrer" class="footer__link-item">TikTok<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Ve Development</div></div></div></footer></div>
+</body>
+</html>
