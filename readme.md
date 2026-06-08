@@ -2,7 +2,7 @@
 
 A hierarchical state machine for Roblox Luau.
 
-**Version:** v1.0.0
+**[Creator Store](https://create.roblox.com/store/asset/71022374633308/Stratix)** | **Version:** v1.0.0
 
 Stratix lets you model complex behavior as a tree of named states with guarded transitions, entry/exit callbacks, parallel regions, history, and an event queue. Send an event; Stratix walks the active state's ancestor chain, finds the first matching transition whose guard passes, and moves to the new state.
 

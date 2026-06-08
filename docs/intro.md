@@ -10,7 +10,7 @@ Stratix is a hierarchical state machine for Roblox Luau. Register states, add tr
 
 ## Installation
 
-Get Stratix from the **[Roblox Creator Store](https://create.roblox.com/store/asset/82552188397689)** and drop the module into `ReplicatedStorage`.
+Get Stratix from the **[Roblox Creator Store](https://create.roblox.com/store/asset/71022374633308/Stratix)** and drop the module into `ReplicatedStorage`.
 
 Stratix requires a Signal implementation at `ReplicatedStorage.Shared.Modules.Utilities.Signal`, or adjust the require path at the top of the module.
 
