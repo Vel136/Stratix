@@ -1,0 +1,49 @@
+[moonwave]
+sourceDir = ["docs"]
+
+[docusaurus]
+title = "Stratix"
+tagline = "A hierarchical state machine for Roblox Luau."
+url = "https://vel136.github.io"
+baseUrl = "/Stratix/"
+
+[home]
+enabled = true
+includeReadme = true
+
+[[classOrder]]
+section = "API"
+classes = ["Stratix"]
+
+[navbar]
+title = "Stratix"
+
+[footer]
+style = "dark"
+copyright = "Copyright © 2026 Ve Development"
+
+[[footer.links]]
+title = "Community"
+
+[[footer.links.items]]
+label = "Discord Server"
+href = "https://discord.gg/XMYMRKcd3g"
+
+[[footer.links.items]]
+label = "Discord (Direct)"
+href = "https://discord.com/users/897026279243669504"
+
+[[footer.links]]
+title = "Social"
+
+[[footer.links.items]]
+label = "Instagram"
+href = "https://www.instagram.com/vedevelopment/"
+
+[[footer.links.items]]
+label = "X (Twitter)"
+href = "https://x.com/vedevelopment_"
+
+[[footer.links.items]]
+label = "TikTok"
+href = "https://www.tiktok.com/@vedevelopment"
